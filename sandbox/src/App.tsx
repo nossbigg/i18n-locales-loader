@@ -1,8 +1,14 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import logo from "./logo.svg";
+import locales from "./locales.json";
+import { MyComponent } from "./MyComponent";
+import { useFetchLocale } from "./fetchUtils";
+import { makePrettyJson } from "./utils";
+import "./App.css";
 
 function App() {
+  const enLocales = useFetchLocale(locales.en);
+
   return (
     <div className="App">
       <header className="App-header">
@@ -18,6 +24,18 @@ function App() {
         >
           Learn React
         </a>
+        <div>
+          <br />
+          locales import
+          <br />
+          {makePrettyJson(locales)}
+          <br />
+          en locales
+          <br />
+          {enLocales && makePrettyJson(enLocales)}
+        </div>
+        <br />
+        <MyComponent />
       </header>
     </div>
   );

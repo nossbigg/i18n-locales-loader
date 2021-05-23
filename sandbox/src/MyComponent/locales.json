@@ -1,0 +1,12 @@
+{
+  "en": {
+    "MyComponent": {
+      "yes": "Yes"
+    }
+  },
+  "zh": {
+    "MyComponent": {
+      "yes": "好"
+    }
+  }
+}

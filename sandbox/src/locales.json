@@ -1,0 +1,12 @@
+{
+  "en": {
+    "common": {
+      "hello": "Hello"
+    }
+  },
+  "zh": {
+    "common": {
+      "hello": "你好"
+    }
+  }
+}
