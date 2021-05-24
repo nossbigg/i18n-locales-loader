@@ -5,6 +5,9 @@
   "repository": "git@github.com:nossbigg/i18n-locales-loader.git",
   "author": "nossbigg <chenggibson@gmail.com>",
   "license": "MIT",
+  "files": [
+    "/src"
+  ],
   "scripts": {
     "test": "jest --watch"
   },
