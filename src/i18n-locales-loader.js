@@ -1,41 +1,12 @@
 const path = require("path");
-const { getOptions, getHashDigest } = require("loader-utils");
+const { getOptions } = require("loader-utils");
+const { makeLocalesMap } = require("./utils/makeLocalesMap");
+const { makeModuleOutput } = require("./utils/makeModuleOutput");
+const { makeLocalesBaseDir } = require("./utils/makeLocalesBaseDir");
+const { emitLocaleFiles } = require("./utils/emitLocaleFiles");
+const { makeLocalesWebpathMap } = require("./utils/makeLocalesWebpathMap");
 
 const BASE_DIR = path.join("static", "locales");
-
-const makeLocalesMap = (allLocalesJson, baseDir) => {
-  const localeKeys = Object.keys(allLocalesJson);
-  const localesMap = localeKeys
-    .map((localeKey) => {
-      const localeJson = allLocalesJson[localeKey];
-      const localeJsonHash = getHashDigest(
-        JSON.stringify(localeJson),
-        "sha1",
-        "base64",
-        5
-      );
-
-      const webpackPath = path.join(
-        baseDir,
-        `${localeKey}.${localeJsonHash}.json`
-      );
-      const webPath = path.join(path.sep, webpackPath);
-
-      const entry = {
-        [localeKey]: { webPath, webpackPath, content: localeJson },
-      };
-      return entry;
-    })
-    .reduce((acc, curr) => ({ ...acc, ...curr }), {});
-  return localesMap;
-};
-
-const jsonStringify = (obj) => {
-  const value = JSON.stringify(obj)
-    .replace(/\u2028/g, "\\u2028")
-    .replace(/\u2029/g, "\\u2029");
-  return value;
-};
 
 function i18nLocalesLoader(content, map, meta) {
   const { resourcePath, rootContext } = this;
@@ -43,30 +14,18 @@ function i18nLocalesLoader(content, map, meta) {
 
   const allLocalesJson = JSON.parse(content);
 
-  const allLocalesJsonDir = path.dirname(resourcePath);
-  const relativeBaseDir = path.join(
-    BASE_DIR,
-    allLocalesJsonDir.replace(rootContext, "")
+  const localesBaseDir = makeLocalesBaseDir(
+    resourcePath,
+    rootContext,
+    BASE_DIR
   );
+  const allLocalesMap = makeLocalesMap(allLocalesJson, localesBaseDir);
 
-  const allLocalesMap = makeLocalesMap(allLocalesJson, relativeBaseDir);
+  emitLocaleFiles(allLocalesMap, this.emitFile);
 
-  const localeKeys = Object.keys(allLocalesMap);
-  localeKeys.forEach((localeKey) => {
-    const { webpackPath, content } = allLocalesMap[localeKey];
-    const localeStringified = JSON.stringify(content);
-    this.emitFile(webpackPath, localeStringified);
-  });
-
-  const moduleExport = localeKeys.reduce((acc, localeKey) => {
-    return { ...acc, [localeKey]: allLocalesMap[localeKey].webPath };
-  }, {});
-  const value = jsonStringify(moduleExport);
-
-  const esModule =
-    typeof options.esModule !== "undefined" ? options.esModule : true;
-  const output = `${esModule ? "export default" : "module.exports ="} ${value}`;
-  return output;
+  const localesWebpathMap = makeLocalesWebpathMap(allLocalesMap);
+  const moduleOutput = makeModuleOutput(options, localesWebpathMap);
+  return moduleOutput;
 }
 
 module.exports = i18nLocalesLoader;
