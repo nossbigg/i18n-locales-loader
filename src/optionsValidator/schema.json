@@ -1,0 +1,16 @@
+{
+  "type": "object",
+  "properties": {
+    "esModule": {
+      "description": "Use esModules (default: true)",
+      "type": "boolean"
+    },
+    "buildLocalesPath": {
+      "description": "Directory of locales static assets (default: [\"static\", \"locales\"])",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}
