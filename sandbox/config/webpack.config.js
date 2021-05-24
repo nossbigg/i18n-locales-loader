@@ -371,7 +371,7 @@ module.exports = function (webpackEnv) {
             {
               test: /locales\.json$/,
               type: 'javascript/auto',
-              loader: require.resolve('./i18n-locales-loader'),
+              loader: require.resolve('i18n-locales-loader'),
               options: {
                 esModule: true,
               },
