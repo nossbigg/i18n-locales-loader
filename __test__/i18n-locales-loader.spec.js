@@ -1,4 +1,4 @@
-const i18nLocalesLoader = require("../src/i18n-locales-loader");
+const i18nLocalesLoader = require("../src/index");
 const loaderUtils = require("loader-utils");
 
 jest.mock("loader-utils", () => ({
