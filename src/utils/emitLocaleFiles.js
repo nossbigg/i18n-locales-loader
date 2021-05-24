@@ -1,7 +1,8 @@
 const emitLocaleFiles = (allLocalesMap, emitFile) => {
-  const localeKeys = Object.keys(allLocalesMap);
-  localeKeys.forEach((localeKey) => {
-    const { webpackPath, content } = allLocalesMap[localeKey];
+  const localeValues = Object.values(allLocalesMap);
+
+  localeValues.forEach((localeValue) => {
+    const { webpackPath, content } = localeValue;
     const localeStringified = JSON.stringify(content);
     emitFile(webpackPath, localeStringified);
   });
