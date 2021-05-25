@@ -77,11 +77,9 @@ _Webpack Build Output:_
 1. Add `i18n-locales-loader` dependency
 
    ```bash
-   yarn add i18n-locales-loader
-
+   yarn add --dev i18n-locales-loader
    or
-
-   npm install i18n-locales-loader
+   npm install --save-dev i18n-locales-loader
    ```
 
 1. Use `i18n-locales-loader` in `webpack.config.js`
