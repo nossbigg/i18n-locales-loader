@@ -2,9 +2,7 @@
 
 A `webpack` loader that splits your `locales.json` file into locale-specific files (eg. `en.json`, `zh.json`) for better locale-specific translations lazy loading support.
 
-## What it does
-
-**tldr;**
+## What it Does
 
 _Before_
 
@@ -31,7 +29,7 @@ _After_
 - `MyComponent.js` React component requries i18n translations
 - `locales.json` contains Component-specific translations
 
-**Before & After**
+## Example: Before & After
 
 _Code:_
 
@@ -99,6 +97,11 @@ _Webpack Build Output:_
            test: /locales\.json$/,
            type: "javascript/auto",
            loader: require.resolve("i18n-locales-loader"),
+           options: {
+             // for more details: see options documentation
+             esModule: true,
+             buildLocalesPath: ["static", "locales"],
+           },
          },
          // other rules...
        ],
@@ -107,6 +110,19 @@ _Webpack Build Output:_
 
    // note: need to define 'type' to override webpack v4 default JSON-loading behavior
    ```
+
+## Loader `options`
+
+- `options.esModule`
+  - Optional, `boolean`, default: `true`
+  - Defines module output format
+  - When true, Emit output as ES Module (ie. `export default`)
+  - When false, Emit output as CommonJS Module (ie. `module.exports`)
+- `options.buildLocalesPath`
+  - Optional, `string[]`, default: `["static", "locales"]`
+  - Defines build directory path to emit locales files to
+  - Uses [`path.join()`](https://nodejs.org/api/path.html#path_path_join_paths) to generate directory path
+  - eg. In default setup, `["static", "locales"]` -> `/static/locales`
 
 ## Motivation
 
