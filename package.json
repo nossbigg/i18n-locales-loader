@@ -16,7 +16,8 @@
     "/src"
   ],
   "scripts": {
-    "test": "jest --watch"
+    "test": "jest --watch",
+    "test:once": "jest --coverage"
   },
   "dependencies": {
     "loader-utils": "^2.0.0",
