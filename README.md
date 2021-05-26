@@ -2,6 +2,8 @@
 
 A `webpack` loader that splits your `locales.json` file into locale-specific files (eg. `en.json`, `zh.json`) for better locale-specific translations lazy loading support.
 
+[![npm version](https://badge.fury.io/js/i18n-locales-loader.svg)](https://badge.fury.io/js/i18n-locales-loader)
+
 ## What it Does
 
 1. **Splits** a `locales.json` up into **separate files** for each locale.
