@@ -58,16 +58,20 @@ describe("i18n-locales-loader", () => {
       {
         webpackPath: "static/locales/src/en.a123b.json",
         localeStringified: JSON.stringify({
-          common: {
-            hello: "Hello",
+          en: {
+            common: {
+              hello: "Hello",
+            },
           },
         }),
       },
       {
         webpackPath: "static/locales/src/zh.a123b.json",
         localeStringified: JSON.stringify({
-          common: {
-            hello: "你好",
+          zh: {
+            common: {
+              hello: "你好",
+            },
           },
         }),
       },

@@ -18,10 +18,10 @@ A `webpack` loader that splits your `locales.json` file into locale-specific fil
 
    == After ==
    // locales/en.json
-   { "common": { "hello": "Hello" } }
+   { "en": { "common": { "hello": "Hello" } } }
 
    // locales/zh.json
-   { "common": { "hello": "你好" } }
+   { "zh": { "common": { "hello": "你好" } } }
    ```
 
    - Webpack Build Output
@@ -73,7 +73,7 @@ A `webpack` loader that splits your `locales.json` file into locale-specific fil
     // locale usage
     fetch(locales.en)
       .then(resp => resp.json())
-      .then(content => console.log(content.common.hello)) // prints "Hello"
+      .then(content => console.log(content.en.common.hello)) // prints "Hello"
    ```
 
 <details markdown="1">

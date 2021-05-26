@@ -11,7 +11,9 @@ const makeLocalesMap = (allLocalesJson, baseDir) => {
 };
 
 const makeLocaleMapEntry = (allLocalesJson, baseDir) => (localeKey) => {
-  const localeJson = allLocalesJson[localeKey];
+  const content = allLocalesJson[localeKey];
+
+  const localeJson = { [localeKey]: content };
   const localeJsonHash = getHashDigest(
     JSON.stringify(localeJson),
     "sha1",
