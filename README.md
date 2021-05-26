@@ -39,9 +39,10 @@ A `webpack` loader that splits your `locales.json` file into locale-specific fil
         - js
           - main.a543vfds.chunk.js
         - locales
-          - MyComponent
-            - en.a433v.json (en locale-specific translations)
-            - zh.kfd83.json (zh locale-specific translations)
+          - src
+            - MyComponent
+              - en.a433v.json (en locale-specific translations)
+              - zh.kfd83.json (zh locale-specific translations)
    ```
 
 2. **Modifies** `locales.json` imported object to return **URL paths** for each locale.
@@ -59,21 +60,50 @@ A `webpack` loader that splits your `locales.json` file into locale-specific fil
       zh: { common: { hello: "你好" } },
     }
 
+    // locale usage
+    console.log(locales.en.common.hello) // prints "Hello"
+
     == After ==
     // locales object
     {
-      en: "/static/locales/MyComponent/en.a433v.json",
-      zh: "/static/locales/MyComponent/zh.kfd83.json",
+      en: "/static/locales/src/MyComponent/en.a433v.json",
+      zh: "/static/locales/src/MyComponent/zh.kfd83.json",
     }
+
+    // locale usage
+    fetch(locales.en)
+      .then(resp => resp.json())
+      .then(content => console.log(content.common.hello)) // prints "Hello"
    ```
 
-_Before_
+<details markdown="1">
+<summary>More details</summary>
+
+_Folder Structure:_
+
+```
+- <project root>
+  - src
+    - MyComponent
+      - MyComponent.js
+      - locales.json
+
+```
+
+- `MyComponent.js` React component requries i18n translations
+- `locales.json` contains Component-specific translations
+
+</details>
+
+### In Summary
+
+_Before:_
 
 - Loads `locales.json` as `Object` containing translations
 - Always loads translations for **all locales** via **JS code**
 - Translations are bundled **with JS code**
 
-_After_
+_After:_
 
 - Loads `locales.json` as `Object` with **URL mappings to locale-specific translations** (eg. `en.json`, `zh.json`)
 - Option to load translations for **specific locales** via **XHR**
@@ -140,63 +170,3 @@ _After_
 
 - ❌ Load all locales (bad, because a site will only use a single locale (or two at best, for fallback cases))
 - ✅ Load only specific locales that are required (less overall data to transfer)
-
-## Detailed Example
-
-<details markdown="1">
-<summary>See more</summary>
-
-_Folder Structure_
-
-```
-- MyComponent
-  - MyComponent.js
-  - locales.json
-
-```
-
-- `MyComponent.js` React component requries i18n translations
-- `locales.json` contains Component-specific translations
-
-_Code:_
-
-```javascript
-import locales from "./locales.json";
-
-/*
-== Without loader: ==
-note: default webpack v4 behavior (ie. load as object)
-locales = {
-  en: { common: { hello: "Hello" } },
-  zh: { common: { hello: "你好" } },
-};
-
-== With loader: ==
-locales = {
-  en: "/static/locales/MyComponent/en.a433v.json",
-  zh: "/static/locales/MyComponent/zh.kfd83.json",
-};
-*/
-```
-
-_Webpack Build Output:_
-
-```
-== Without loader: ==
-- build
-  - static
-    - js
-      - main.a543vfds.chunk.js
-
-== With loader: ==
-- build
-  - static
-    - js
-      - main.a543vfds.chunk.js
-    - locales
-      - MyComponent
-        - en.a433v.json (en locale-specific translations)
-        - zh.kfd83.json (zh locale-specific translations)
-```
-
-</details>
